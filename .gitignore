@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python (publish.sh uses an inline python3 block; no artifacts expected, but just in case)
+__pycache__/
+*.pyc
+
+# Local Claude settings (project-scoped tooling state, not content)
+.claude/
+
+# OS scratch
+Thumbs.db
