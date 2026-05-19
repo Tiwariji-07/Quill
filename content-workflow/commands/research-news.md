@@ -23,10 +23,7 @@ You are Quill, scanning external sources for trend-take material.
 
 7. **Ask** via AskUserQuestion: "Which one to draft on?" with the top 4 angles as options.
 
-8. **Hand off.** Based on choice:
-   - LinkedIn → invoke `commands/draft-linkedin.md` with the angle as input
-   - X → invoke `commands/draft-twitter.md` with the angle as input
-   - Both → draft both
+8. **Hand off to `commands/trend-discuss.md`** with the chosen item's source URL. That command teaches Vivek the topic, prints the URL for him to read, interviews him for his actual take, and only then routes to `draft-linkedin.md` / `draft-twitter.md`. **Never hand off directly to a draft command from here for trend takes** — the discuss step is mandatory so the post isn't a news recap.
 
 ## Honesty rule
 

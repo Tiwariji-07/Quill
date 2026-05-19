@@ -1,0 +1,51 @@
+// Render: d2 2026-05-17-language-lockin-moved-to-ecosystem.d2 2026-05-17-language-lockin-moved-to-ecosystem.png --pad 40
+// Theme: pick a clean light theme at export time, e.g. --theme=0
+// Target output: ~1200x627 for LinkedIn (crop in export if needed)
+
+direction: down
+
+title: "Where the lock-in moved" {
+  near: top-center
+  shape: text
+  style.font-size: 28
+  style.bold: true
+}
+
+code_layer: "Code layer: portable now" {
+  style: {
+    fill: "#e6f4ea"
+    stroke: "#1e7e34"
+    stroke-width: 2
+  }
+
+  python: "Python"
+  typescript: "TypeScript"
+  go: "Go"
+  rust: "Rust"
+}
+
+ecosystem_layer: "Agent + RAG ecosystem: not portable" {
+  style: {
+    fill: "#fdecea"
+    stroke: "#b02a37"
+    stroke-width: 2
+  }
+
+  python_eco: "Python\nLangGraph, dspy, ragas, llama-index" {
+    style.fill: "#fff3cd"
+  }
+  ts_eco: "TypeScript\nfragments" {
+    style.fill: "#fff3cd"
+  }
+  go_eco: "Go\nalmost none" {
+    style.fill: "#fff3cd"
+  }
+  rust_eco: "Rust\nalmost none" {
+    style.fill: "#fff3cd"
+  }
+}
+
+code_layer.python -> ecosystem_layer.python_eco: "depends on"
+code_layer.typescript -> ecosystem_layer.ts_eco
+code_layer.go -> ecosystem_layer.go_eco
+code_layer.rust -> ecosystem_layer.rust_eco

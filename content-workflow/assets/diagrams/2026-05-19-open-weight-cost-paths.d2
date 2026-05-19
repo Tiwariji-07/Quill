@@ -1,0 +1,164 @@
+# ===========================================================================
+# Open-weight LLMs are not free — animated reveal
+#
+# Render animated SVG:
+#   d2 --animate-interval=1800 -l elk --theme=200 \
+#     2026-05-19-open-weight-cost-paths.d2 2026-05-19-open-weight-cost-paths.svg
+#
+# Render static (final frame only, PNG):
+#   d2 -l elk --theme=200 \
+#     2026-05-19-open-weight-cost-paths.d2 2026-05-19-open-weight-cost-paths.png
+#
+# Note: dollar signs are escaped (\$) because D2 reserves ${...} for variable
+# substitution. Title/subtitle use `near:` for fixed positioning so they
+# don't get pulled into the flow layout.
+# ===========================================================================
+
+direction: down
+
+# ---- floating header (single markdown block to avoid overlap) --------------
+header: |md
+  # Open-weight LLMs are not free
+  _Free to download. Not free to run._
+| {
+  near: top-center
+}
+
+# ---- BASE LAYER (frame 1): just the model weights --------------------------
+model: "Open-weight model weights" {
+  shape: cylinder
+  style.fill: "#1f2d3d"
+  style.stroke: "#2ecc71"
+  style.stroke-width: 3
+  style.font-color: "#ffffff"
+  style.font-size: 18
+  style.bold: true
+}
+
+cost_label: "license cost: \$0" {
+  shape: text
+  style.font-color: "#2ecc71"
+  style.font-size: 16
+  style.italic: true
+}
+
+model -> cost_label
+
+# ---- STEPS: progressive reveal of the argument -----------------------------
+steps: {
+
+  # Step 2: the inconvenient truth
+  reality_step: {
+    reality: "but it still has to run on a GPU somewhere" {
+      shape: text
+      style.font-color: "#e67e22"
+      style.font-size: 16
+      style.bold: true
+    }
+    model -> reality: "in practice" {
+      style.stroke: "#e67e22"
+      style.stroke-width: 2
+      style.stroke-dash: 4
+      style.font-color: "#e67e22"
+    }
+  }
+
+  # Step 3: enumerate the three serving paths
+  paths_step: {
+    paths: "Three ways to actually serve it" {
+      shape: text
+      style.font-size: 14
+      style.font-color: "#888888"
+    }
+    api: "Frontier API\n(subscription / per-token)" {
+      shape: rectangle
+      style.fill: "#173f2a"
+      style.stroke: "#2ecc71"
+      style.stroke-width: 2
+      style.font-color: "#ffffff"
+      style.font-size: 14
+      style.bold: true
+    }
+    rent: "Rent a GPU\n(NeoCloud H100 @ \$2.20/hr)" {
+      shape: rectangle
+      style.fill: "#3a2a14"
+      style.stroke: "#e67e22"
+      style.stroke-width: 2
+      style.font-color: "#ffffff"
+      style.font-size: 14
+      style.bold: true
+    }
+    own: "Self-host DGX H100\n(8x H100 + power + cooling)" {
+      shape: rectangle
+      style.fill: "#3d1414"
+      style.stroke: "#c0392b"
+      style.stroke-width: 2
+      style.font-color: "#ffffff"
+      style.font-size: 14
+      style.bold: true
+    }
+    reality -> paths
+    paths -> api: {style.stroke: "#2ecc71"; style.stroke-width: 2}
+    paths -> rent: {style.stroke: "#e67e22"; style.stroke-width: 2}
+    paths -> own: {style.stroke: "#c0392b"; style.stroke-width: 2}
+  }
+
+  # Step 4: drop the cost numbers under each path
+  costs_step: {
+    api_cost: "\$14,400\n6 yrs, 1 user" {
+      shape: text
+      style.font-color: "#2ecc71"
+      style.font-size: 18
+      style.bold: true
+    }
+    rent_cost: "\$27K to \$38K\n6 yrs, 1 GPU" {
+      shape: text
+      style.font-color: "#e67e22"
+      style.font-size: 18
+      style.bold: true
+    }
+    own_cost: "~\$400,000\n6 yrs TCO" {
+      shape: text
+      style.font-color: "#e74c3c"
+      style.font-size: 18
+      style.bold: true
+    }
+    api -> api_cost
+    rent -> rent_cost
+    own -> own_cost
+  }
+
+  # Step 5: the kicker
+  punchline_step: {
+    api_note: "linear with usage" {
+      shape: text
+      style.font-color: "#aaaaaa"
+      style.font-size: 11
+      style.italic: true
+    }
+    rent_note: "fixed hourly, idle still bills" {
+      shape: text
+      style.font-color: "#aaaaaa"
+      style.font-size: 11
+      style.italic: true
+    }
+    own_note: "CapEx plus DevOps headcount" {
+      shape: text
+      style.font-color: "#aaaaaa"
+      style.font-size: 11
+      style.italic: true
+    }
+    punchline: "To serve Kimi K2 (1T params, 32B active),\na DGX H100 needs 28 people sharing it just to break even.\nThose 28 split ~80K tokens of KV cache between them." {
+      shape: text
+      style.font-size: 13
+      style.font-color: "#f5f5f5"
+      style.bold: true
+    }
+    api_cost -> api_note
+    rent_cost -> rent_note
+    own_cost -> own_note
+    api_note -> punchline
+    rent_note -> punchline
+    own_note -> punchline
+  }
+}

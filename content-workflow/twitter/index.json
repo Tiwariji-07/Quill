@@ -1,4 +1,21 @@
 {
   "platform": "twitter",
-  "posts": []
+  "posts": [
+    {
+      "date": "2026-05-17",
+      "heading": "Delta Channels \u2014 state vs size",
+      "pillar": "trend",
+      "topics": [
+        "langgraph",
+        "delta-channels",
+        "agent-state"
+      ],
+      "file": "published/2026-05-17-delta-channels-state-not-size.md",
+      "engagement": {
+        "likes": null,
+        "comments": null,
+        "reach": null
+      }
+    }
+  ]
 }

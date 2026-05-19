@@ -89,7 +89,9 @@ Based on the chosen candidate's pillar:
 | Pillar | Route |
 |--------|-------|
 | `architecture` / `lessons` / `behind` | Invoke `commands/interview.md` to extract specifics, then `draft-linkedin.md` or `draft-twitter.md` |
-| `trend` | Invoke `draft-linkedin.md` or `draft-twitter.md` directly with the angle |
+| `trend` | Invoke `commands/trend-discuss.md` first (teaches Vivek the source, prints the URL, interviews him for his take), then routes to `draft-linkedin.md` / `draft-twitter.md` |
+
+**Never skip the discuss/interview step.** For trends, going directly from a news headline to a draft produces shallow takes that read like a news recap. The `trend-discuss.md` step is what turns "I saw a news item" into "I have an opinion grounded in understanding."
 
 **Skill invocation is mandatory at draft time.** The drafting sub-commands invoke `linkedin-posts` (for LinkedIn) and `twitter-x-posts` (for X) via the Skill tool. If you find yourself drafting in this daily flow without invoking the matching skill, stop and invoke it — it enforces platform mechanics (char limits, hook rules, algorithm signals) that the voice files do not duplicate.
 
