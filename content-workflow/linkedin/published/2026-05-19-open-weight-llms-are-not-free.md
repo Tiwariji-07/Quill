@@ -2,7 +2,7 @@
 date: 2026-05-19
 pillar: trend
 topics: [open-weight-llms, inference-cost, gpu-economics, kimi-k2, wavemaker-ai]
-status: draft
+status: published
 platform: linkedin
 heading: Open-weight LLMs are not free
 visual:

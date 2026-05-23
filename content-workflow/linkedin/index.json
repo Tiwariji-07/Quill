@@ -1,4 +1,41 @@
 {
   "platform": "linkedin",
-  "posts": []
+  "posts": [
+    {
+      "date": "2026-05-20",
+      "heading": "Gemini Flash and cost per completed task",
+      "pillar": "trend",
+      "topics": [
+        "gemini",
+        "agentic-coding",
+        "model-pricing",
+        "token-cost",
+        "developer-experience"
+      ],
+      "file": "published/2026-05-20-gemini-flash-cost-per-task.md",
+      "engagement": {
+        "likes": null,
+        "comments": null,
+        "reach": null
+      }
+    },
+    {
+      "date": "2026-05-19",
+      "heading": "Open-weight LLMs are not free",
+      "pillar": "trend",
+      "topics": [
+        "open-weight-llms",
+        "inference-cost",
+        "gpu-economics",
+        "kimi-k2",
+        "wavemaker-ai"
+      ],
+      "file": "published/2026-05-19-open-weight-llms-are-not-free.md",
+      "engagement": {
+        "likes": null,
+        "comments": null,
+        "reach": null
+      }
+    }
+  ]
 }
