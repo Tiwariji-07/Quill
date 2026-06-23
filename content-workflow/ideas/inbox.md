@@ -1,6 +1,6 @@
-# Idea inbox
+# Idea inbox (legacy / local scratch)
 
-Raw, half-formed ideas. Capture freely; clean up later. Quill reads this when generating ideas or drafts.
+> **Canonical idea capture now lives in the Notion Content Pipeline** (Status = `Idea`). New ideas go there, not here. This file is kept for the historical daily notes below and as an offline scratchpad when Notion isn't handy.
 
 ## Format
 
@@ -25,3 +25,4 @@ One bullet per idea. Optionally tag with pillar.
 ## Daily notes
 
 2026-05-17 — drafted: Delta Channels state-not-size (X, trend) + language lock-in moved to ecosystem (LinkedIn, lessons) + prompts-in-code stopped feeling clean (LinkedIn, lessons). Killed earlier Delta Channels LinkedIn draft (no practitioner depth) and swapped in Context Hub angle. First Quill session. Two LinkedIn drafts on the same day overrode the one-per-platform rule by explicit ask. Published: Delta Channels state-not-size (X).
+2026-05-23 — no post: cadence is healthy, published history is trend-heavy, and none of today's candidates landed strongly enough to force a LinkedIn draft.

@@ -1,26 +1,54 @@
 #!/usr/bin/env bash
 # publish.sh — move a draft to published/ and append to index.json
-# Usage: ./scripts/publish.sh <linkedin|twitter> drafts/<filename>.md
+# Usage:
+#   ./scripts/publish.sh <linkedin|twitter|medium> drafts/<filename>.md
+#   ./scripts/publish.sh linkedin drafts/<filename>.md --page talkbeyondcode
 
 set -euo pipefail
 
 if [ $# -lt 2 ]; then
-  echo "Usage: $0 <linkedin|twitter> <draft-path-relative-to-platform-dir>" >&2
+  echo "Usage: $0 <linkedin|twitter|medium> <draft-path-relative-to-platform-dir>" >&2
   echo "Example: $0 linkedin drafts/2026-05-20-rag-pipeline.md" >&2
+  echo "Example: $0 medium drafts/2026-06-20-multi-source-rag.md" >&2
+  echo "Example: $0 linkedin drafts/2026-06-12-episode-1-launch.md --page talkbeyondcode" >&2
   exit 1
 fi
 
 platform="$1"
 draft_rel="$2"
+shift 2
 
-if [ "$platform" != "linkedin" ] && [ "$platform" != "twitter" ]; then
-  echo "Error: platform must be 'linkedin' or 'twitter'" >&2
+if [ "$platform" != "linkedin" ] && [ "$platform" != "twitter" ] && [ "$platform" != "medium" ]; then
+  echo "Error: platform must be 'linkedin', 'twitter', or 'medium'" >&2
   exit 1
+fi
+
+page=""
+if [ $# -gt 0 ]; then
+  if [ $# -ne 2 ] || [ "$1" != "--page" ]; then
+    echo "Usage: $0 <linkedin|twitter> <draft-path-relative-to-platform-dir> [--page page-slug]" >&2
+    exit 1
+  fi
+  page="$2"
+fi
+
+if [ -n "$page" ]; then
+  case "$page" in
+    *[!A-Za-z0-9_-]*)
+      echo "Error: page slug can only contain letters, numbers, underscores, and hyphens" >&2
+      exit 1
+      ;;
+  esac
 fi
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 root_dir="$(cd "$script_dir/.." && pwd)"
-platform_dir="$root_dir/$platform"
+
+if [ -n "$page" ]; then
+  platform_dir="$root_dir/pages/$page/$platform"
+else
+  platform_dir="$root_dir/$platform"
+fi
 
 draft_path="$platform_dir/$draft_rel"
 if [ ! -f "$draft_path" ]; then
@@ -56,6 +84,10 @@ date_field="$(extract_field date)"
 pillar="$(extract_field pillar)"
 heading="$(extract_field heading)"
 topics_raw="$(extract_field topics)"
+account="$(extract_field account)"
+surface="$(extract_field surface)"
+content_type="$(extract_field content_type)"
+asset="$(extract_field asset)"
 
 if [ -z "$date_field" ] || [ -z "$pillar" ] || [ -z "$heading" ]; then
   echo "Error: draft missing required frontmatter (date, pillar, heading)" >&2
@@ -67,18 +99,34 @@ if [ "$pillar" = "TODO" ]; then
   exit 1
 fi
 
-# Move the file
-mv "$draft_path" "$published_path"
-echo "Moved: $draft_path -> $published_path"
-
-# Update index.json using Python (more reliable than jq for nested writes)
 index_file="$platform_dir/index.json"
-python3 - "$index_file" "$date_field" "$pillar" "$heading" "$topics_raw" "$filename" <<'PY'
+if [ ! -f "$index_file" ]; then
+  echo "Error: index not found: $index_file" >&2
+  exit 1
+fi
+
+tmp_index="$(mktemp "${index_file}.tmp.XXXXXX")"
+trap 'rm -f "$tmp_index"' EXIT
+
+# Prepare the new index with Python before moving the draft.
+python3 - "$index_file" "$tmp_index" "$date_field" "$pillar" "$heading" "$topics_raw" "$filename" "$account" "$surface" "$content_type" "$asset" <<'PY'
 import json
 import sys
 import re
 
-index_file, date_field, pillar, heading, topics_raw, filename = sys.argv[1:7]
+(
+    index_file,
+    tmp_index,
+    date_field,
+    pillar,
+    heading,
+    topics_raw,
+    filename,
+    account,
+    surface,
+    content_type,
+    asset,
+) = sys.argv[1:12]
 
 with open(index_file, "r") as f:
     data = json.load(f)
@@ -98,15 +146,32 @@ entry = {
     "engagement": {"likes": None, "comments": None, "reach": None}
 }
 
+for key, value in {
+    "account": account,
+    "surface": surface,
+    "content_type": content_type,
+    "asset": asset,
+}.items():
+    if value and value != "TODO":
+        entry[key] = value
+
 data.setdefault("posts", []).append(entry)
 # Keep posts sorted by date descending for easy reading
 data["posts"].sort(key=lambda p: p.get("date", ""), reverse=True)
 
-with open(index_file, "w") as f:
+with open(tmp_index, "w") as f:
     json.dump(data, f, indent=2)
     f.write("\n")
 
-print(f"Updated index: {index_file}")
+print(f"Prepared index: {tmp_index}")
 PY
+
+# Move the file, then atomically replace the index file.
+mv "$draft_path" "$published_path"
+echo "Moved: $draft_path -> $published_path"
+
+mv "$tmp_index" "$index_file"
+trap - EXIT
+echo "Updated index: $index_file"
 
 echo "Published."

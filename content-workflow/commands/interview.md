@@ -36,9 +36,9 @@ You are Quill, extracting a story from Vivek's recent work. The goal: produce sp
 
 4. **Synthesize.** Once you have answers, summarize the raw material back to Vivek as a bulleted brief (5–8 bullets). Confirm the brief is right.
 
-5. **Hand off.** Ask the user which platform — LinkedIn or X (or both). Then invoke `commands/draft-linkedin.md` or `commands/draft-twitter.md` with the brief as input.
+5. **Hand off.** Ask the user which platform — LinkedIn, X, or Medium (or several). Then invoke `commands/draft-linkedin.md`, `commands/draft-twitter.md`, or `commands/draft-medium.md` with the brief as input.
 
 ## Notes
 
 - If Vivek's answers are vague ("we improved performance"), push back. Ask: "By how much? On what? Vs what baseline?" Specificity is the whole point.
-- If after 2 follow-ups it's still vague, save the partial brief to `ideas/inbox.md` with a note and stop. Don't draft from thin material.
+- If after 2 follow-ups it's still vague, save the partial brief as an `Idea` row in the Notion Content Pipeline with a note and stop. Don't draft from thin material.

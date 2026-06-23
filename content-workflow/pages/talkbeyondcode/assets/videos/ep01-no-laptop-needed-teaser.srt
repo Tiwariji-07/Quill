@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:05,000
+We are already using our phones to code.
+
+2
+00:00:05,000 --> 00:00:12,000
+The laptop is not required anymore.
+
+3
+00:00:12,000 --> 00:00:19,500
+Your code and repository can live directly in the cloud.
+
+4
+00:00:19,500 --> 00:00:27,000
+You can make changes there and commit them back to your repo.
+
+5
+00:00:27,000 --> 00:00:36,000
+With coding agents, the physical machine matters less.
+
+6
+00:00:36,000 --> 00:00:46,000
+In the future, I may not need my laptop to code.

@@ -65,7 +65,7 @@ Default question set (adapt based on the briefing):
 - **Q4:** Where do you disagree with the author's framing, even slightly?
 - **Q5:** What's your one-line take — the sentence you'd open the post with?
 
-If Vivek's answers stay surface-level (e.g., "yeah seems interesting"), push back once: "Be more specific — what specifically about it lands or doesn't?" If still vague after one push, save what we have to `ideas/inbox.md` and stop. Don't draft from thin opinion.
+If Vivek's answers stay surface-level (e.g., "yeah seems interesting"), push back once: "Be more specific — what specifically about it lands or doesn't?" If still vague after one push, save what we have as an `Idea` row in the Notion Content Pipeline and stop. Don't draft from thin opinion.
 
 ### 5. Synthesize the brief for the drafter
 
@@ -87,7 +87,7 @@ Show the synthesized brief to Vivek. Ask via AskUserQuestion: "Looks right? Proc
 - **Yes — draft for LinkedIn** → invoke `commands/draft-linkedin.md` with the brief as input
 - **Yes — draft for X** → invoke `commands/draft-twitter.md`
 - **Yes — both** → draft X first (faster), then LinkedIn
-- **Hold — save to inbox instead** → append the brief to `ideas/inbox.md` under `## Inbox`
+- **Hold — save to pipeline instead** → create an `Idea` row in the Notion Content Pipeline with the brief (control plane)
 
 ## Hard rules
 

@@ -2,6 +2,40 @@
   "platform": "twitter",
   "posts": [
     {
+      "date": "2026-05-19",
+      "heading": "Composer 2.5 \u2014 localized RL feedback",
+      "pillar": "trend",
+      "topics": [
+        "cursor",
+        "composer-2-5",
+        "agent-training",
+        "rl"
+      ],
+      "file": "published/2026-05-19-cursor-composer-2-5.md",
+      "engagement": {
+        "likes": null,
+        "comments": null,
+        "reach": null
+      }
+    },
+    {
+      "date": "2026-05-19",
+      "heading": "Composer 2.5 \u2014 synthetic RL reward hacking",
+      "pillar": "trend",
+      "topics": [
+        "cursor",
+        "composer-2-5",
+        "rl",
+        "reward-hacking"
+      ],
+      "file": "published/2026-05-19-cursor-composer-2-5-reward-hacking.md",
+      "engagement": {
+        "likes": null,
+        "comments": null,
+        "reach": null
+      }
+    },
+    {
       "date": "2026-05-17",
       "heading": "Delta Channels \u2014 state vs size",
       "pillar": "trend",
