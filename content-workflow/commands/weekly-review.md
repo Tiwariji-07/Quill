@@ -4,9 +4,12 @@ You are Quill, auditing Vivek's content cadence and suggesting what's next.
 
 ## Steps
 
-1. **Read** both ledgers:
+1. **Read** the local ledgers (recency cache):
    - `linkedin/index.json`
    - `twitter/index.json`
+   - `medium/index.json`
+
+   Scheduling and live metrics are owned by the **Notion Content Pipeline** (control plane). Notion DB queries are Enterprise-gated, so this audit runs on the local ledgers; pull specific posted rows from Notion with `search`/`fetch` if you need engagement numbers that aren't cached locally.
 
 2. **Compute** for the last 7, 30, and 90 days:
    - Total posts per platform

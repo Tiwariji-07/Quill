@@ -17,3 +17,13 @@ __pycache__/
 
 # OS scratch
 Thumbs.db
+
+# Brand-page (Talk Beyond Code etc.) media assets — large binaries kept local, not in git.
+# Text sources (.svg, .mjs, .html, .d2, .md) stay tracked.
+content-workflow/pages/**/assets/**/*.mp4
+content-workflow/pages/**/assets/**/*.mov
+content-workflow/pages/**/assets/**/*.png
+content-workflow/pages/**/assets/**/*.jpg
+content-workflow/pages/**/assets/**/*.jpeg
+content-workflow/pages/**/assets/**/*.gif
+content-workflow/pages/**/assets/**/*.pdf

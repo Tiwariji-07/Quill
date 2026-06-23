@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ctrl+Shift+AI EP 01 - AI Adoption Curve</title>
+    <style>
+      @page {
+        size: 1080px 1080px;
+        margin: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #07090f;
+        color: #f8fafc;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .slide {
+        position: relative;
+        width: 1080px;
+        height: 1080px;
+        overflow: hidden;
+        page-break-after: always;
+        background:
+          radial-gradient(circle at 78% 18%, rgba(34, 211, 238, 0.18), transparent 28%),
+          radial-gradient(circle at 18% 88%, rgba(139, 92, 246, 0.18), transparent 26%),
+          linear-gradient(135deg, #07090f 0%, #0d1322 100%);
+      }
+
+      .slide::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(248, 250, 252, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(248, 250, 252, 0.035) 1px, transparent 1px);
+        background-size: 54px 54px;
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 78%);
+      }
+
+      .slide::after {
+        content: "";
+        position: absolute;
+        inset: 34px;
+        border: 1px solid rgba(248, 250, 252, 0.08);
+        pointer-events: none;
+      }
+
+      .content {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        width: 100%;
+        height: 100%;
+        padding: 58px 64px 54px;
+      }
+
+      .topbar,
+      .footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 20px;
+        letter-spacing: 0;
+        color: #8b96ad;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: #f8fafc;
+        font-weight: 700;
+      }
+
+      .mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 142px;
+        height: 44px;
+        border: 1px solid rgba(34, 211, 238, 0.38);
+        border-radius: 7px;
+        background: #0d1322;
+        box-shadow: 0 0 34px rgba(34, 211, 238, 0.12);
+        color: #f8fafc;
+        font-size: 17px;
+      }
+
+      .page-num {
+        color: #22d3ee;
+      }
+
+      .main {
+        display: grid;
+        grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
+        gap: 56px;
+        align-items: center;
+        padding: 54px 0 46px;
+      }
+
+      .main.cover {
+        grid-template-columns: 1fr;
+        align-content: center;
+        gap: 38px;
+        padding-top: 34px;
+      }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        gap: 10px;
+        padding: 11px 14px;
+        border: 1px solid rgba(34, 211, 238, 0.28);
+        border-radius: 7px;
+        color: #22d3ee;
+        background: rgba(13, 19, 34, 0.78);
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        font-family: "Space Grotesk", Inter, ui-sans-serif, system-ui, sans-serif;
+        letter-spacing: 0;
+        line-height: 0.94;
+        color: #f8fafc;
+      }
+
+      h1 {
+        max-width: 900px;
+        font-size: 96px;
+      }
+
+      h2 {
+        max-width: 560px;
+        font-size: 78px;
+      }
+
+      .gradient-word {
+        background: linear-gradient(90deg, #22d3ee, #8b5cf6, #e879f9);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .lede {
+        max-width: 790px;
+        margin: 0;
+        color: #cbd5e1;
+        font-size: 32px;
+        line-height: 1.28;
+        font-weight: 520;
+      }
+
+      .body-copy {
+        max-width: 516px;
+        margin-top: 28px;
+        color: #cbd5e1;
+        font-size: 30px;
+        line-height: 1.34;
+        font-weight: 500;
+      }
+
+      .stage-pill {
+        display: inline-flex;
+        width: fit-content;
+        margin-bottom: 24px;
+        padding: 10px 15px;
+        border-radius: 999px;
+        background: rgba(34, 211, 238, 0.1);
+        border: 1px solid rgba(34, 211, 238, 0.24);
+        color: #22d3ee;
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .whiteboard {
+        position: relative;
+        min-height: 488px;
+        border-radius: 8px;
+        background: #f8fafc;
+        color: #07090f;
+        box-shadow: 0 26px 70px rgba(0, 0, 0, 0.32);
+        border: 1px solid rgba(248, 250, 252, 0.42);
+        overflow: hidden;
+      }
+
+      .whiteboard.cover-board {
+        width: 820px;
+        min-height: 332px;
+        justify-self: center;
+      }
+
+      .whiteboard svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .board-label {
+        position: absolute;
+        left: 28px;
+        bottom: 24px;
+        color: #64748b;
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .path {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 30px;
+        color: #8b96ad;
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 18px;
+      }
+
+      .path strong {
+        color: #f8fafc;
+      }
+
+      .arrow {
+        color: #22d3ee;
+      }
+
+      .note {
+        position: absolute;
+        right: 64px;
+        bottom: 82px;
+        width: 286px;
+        padding: 20px 22px;
+        border-left: 3px solid #22d3ee;
+        background: rgba(13, 19, 34, 0.82);
+        color: #cbd5e1;
+        font-size: 24px;
+        line-height: 1.24;
+      }
+
+      .footer {
+        align-self: end;
+      }
+
+      .question {
+        color: #f8fafc;
+        font-size: 26px;
+        font-weight: 700;
+      }
+
+      .muted {
+        color: #8b96ad;
+      }
+
+      @media print {
+        body {
+          background: #07090f;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="slide">
+      <div class="content">
+        <div class="topbar">
+          <div class="brand"><span class="mark">CTRL+SHIFT+AI</span><span>EP. 01</span></div>
+          <div class="page-num">01 / 07</div>
+        </div>
+        <main class="main cover">
+          <div>
+            <div class="kicker">THE AI ADOPTION CURVE</div>
+            <h1>From Stack Overflow to <span class="gradient-word">coding from a phone</span></h1>
+            <p class="lede">How a 2023 engineer moved from traditional development to AI-native workflows.</p>
+          </div>
+          <div class="whiteboard cover-board">
+            <svg viewBox="0 0 820 332" role="img" aria-label="Hand drawn path from Stack Overflow to phone coding">
+              <path d="M72 196 C178 116, 260 250, 358 168 S556 92, 708 170" fill="none" stroke="#f97316" stroke-width="7" stroke-linecap="round" stroke-dasharray="15 15"/>
+              <rect x="58" y="76" width="168" height="92" rx="8" fill="none" stroke="#07090f" stroke-width="4"/>
+              <path d="M84 112 h78 M84 136 h112" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <text x="72" y="210" font-size="23" font-family="monospace" fill="#2563eb">docs + forums</text>
+              <rect x="330" y="76" width="150" height="150" rx="18" fill="none" stroke="#07090f" stroke-width="4"/>
+              <path d="M360 122 h86 M360 152 h62 M360 182 h96" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <text x="330" y="256" font-size="23" font-family="monospace" fill="#dc2626">agent work</text>
+              <rect x="624" y="56" width="94" height="190" rx="18" fill="none" stroke="#07090f" stroke-width="5"/>
+              <circle cx="671" cy="222" r="6" fill="#07090f"/>
+              <path d="M644 94 h52 M644 124 h40 M644 154 h58" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <text x="588" y="286" font-size="23" font-family="monospace" fill="#2563eb">phone deploy?</text>
+              <path d="M270 224 c-9 -31 8 -54 36 -55 c30 0 48 22 41 56 c-9 40 -62 39 -77 -1z" fill="#07090f"/>
+              <circle cx="296" cy="194" r="5" fill="#f8fafc"/>
+              <circle cx="321" cy="194" r="5" fill="#f8fafc"/>
+              <path d="M293 230 l-18 48 M322 230 l16 46" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <path d="M284 206 c-26 0 -42 -18 -50 -38 M337 205 c34 -12 58 -4 80 22" fill="none" stroke="#07090f" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+            <div class="board-label">not a recap. a path.</div>
+          </div>
+        </main>
+        <div class="footer">
+          <div>talkbeyondcode</div>
+          <div>how real engineers ship with AI</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="content">
+        <div class="topbar">
+          <div class="brand"><span class="mark">CTRL+SHIFT+AI</span><span>EP. 01</span></div>
+          <div class="page-num">02 / 07</div>
+        </div>
+        <main class="main">
+          <div>
+            <div class="stage-pill">STAGE 01</div>
+            <h2>AI was not the default.</h2>
+            <p class="body-copy">Vivek started like most engineers: docs, forums, Stack Overflow, snippets, and community answers.</p>
+          </div>
+          <div class="whiteboard">
+            <svg viewBox="0 0 450 488" role="img" aria-label="Small black operator sorting documentation cards">
+              <rect x="58" y="64" width="132" height="78" rx="8" fill="none" stroke="#07090f" stroke-width="4"/>
+              <rect x="224" y="74" width="150" height="90" rx="8" fill="none" stroke="#07090f" stroke-width="4"/>
+              <rect x="76" y="212" width="132" height="84" rx="8" fill="none" stroke="#07090f" stroke-width="4"/>
+              <rect x="246" y="240" width="108" height="92" rx="8" fill="none" stroke="#07090f" stroke-width="4"/>
+              <path d="M82 94 h78 M82 118 h58 M250 108 h80 M250 132 h64 M104 246 h76 M104 270 h44 M270 274 h50" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <path d="M174 370 c-12 -44 12 -74 54 -75 c45 -1 72 33 57 79 c-14 48 -94 45 -111 -4z" fill="#07090f"/>
+              <circle cx="216" cy="332" r="6" fill="#f8fafc"/>
+              <circle cx="246" cy="332" r="6" fill="#f8fafc"/>
+              <path d="M206 390 l-18 54 M252 390 l18 54" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <path d="M196 350 c-46 -14 -78 -32 -100 -64 M265 350 c38 -24 62 -54 72 -90" fill="none" stroke="#07090f" stroke-width="4" stroke-linecap="round"/>
+              <text x="72" y="176" fill="#2563eb" font-size="22" font-family="monospace">search first</text>
+              <text x="236" y="198" fill="#dc2626" font-size="22" font-family="monospace">no magic yet</text>
+            </svg>
+            <div class="board-label">the normal starting point</div>
+          </div>
+        </main>
+        <div class="footer">
+          <div>AI adoption curve</div>
+          <div class="question">Start with reality.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="content">
+        <div class="topbar">
+          <div class="brand"><span class="mark">CTRL+SHIFT+AI</span><span>EP. 01</span></div>
+          <div class="page-num">03 / 07</div>
+        </div>
+        <main class="main">
+          <div>
+            <div class="stage-pill">STAGE 02</div>
+            <h2>A hackathon forced the first leap.</h2>
+            <p class="body-copy">The team needed a Chrome extension. Nobody had browser-extension experience. ChatGPT helped them build one anyway.</p>
+          </div>
+          <div class="whiteboard">
+            <svg viewBox="0 0 450 488" role="img" aria-label="Small black operator jumping a gap with a browser extension block">
+              <path d="M60 338 h126 M266 338 h126" stroke="#07090f" stroke-width="8" stroke-linecap="round"/>
+              <path d="M187 338 c26 -98 86 -98 80 0" fill="none" stroke="#f97316" stroke-width="7" stroke-linecap="round" stroke-dasharray="12 12"/>
+              <rect x="74" y="84" width="130" height="110" rx="12" fill="none" stroke="#07090f" stroke-width="4"/>
+              <path d="M74 116 h130 M98 150 h48 M98 174 h74" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <rect x="274" y="82" width="104" height="118" rx="12" fill="none" stroke="#07090f" stroke-width="4"/>
+              <path d="M314 116 v48 M290 140 h48" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <path d="M190 252 c-10 -38 12 -64 48 -66 c42 -2 64 29 52 68 c-14 45 -88 44 -100 -2z" fill="#07090f"/>
+              <circle cx="226" cy="220" r="5" fill="#f8fafc"/>
+              <circle cx="254" cy="220" r="5" fill="#f8fafc"/>
+              <path d="M211 276 l-48 48 M266 276 l42 50" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <path d="M218 250 l-46 -30 M264 250 l54 -42" stroke="#07090f" stroke-width="4" stroke-linecap="round"/>
+              <text x="54" y="230" fill="#dc2626" font-size="22" font-family="monospace">no experience</text>
+              <text x="268" y="232" fill="#2563eb" font-size="22" font-family="monospace">ship anyway</text>
+            </svg>
+            <div class="board-label">pressure creates trust</div>
+          </div>
+        </main>
+        <div class="footer">
+          <div>AI adoption curve</div>
+          <div class="question">Trust starts with a concrete problem.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="content">
+        <div class="topbar">
+          <div class="brand"><span class="mark">CTRL+SHIFT+AI</span><span>EP. 01</span></div>
+          <div class="page-num">04 / 07</div>
+        </div>
+        <main class="main">
+          <div>
+            <div class="stage-pill">STAGE 03</div>
+            <h2>First, AI was a feature.</h2>
+            <p class="body-copy">Prompt-based themes, LLM wrappers, and chatbot experiments made AI useful inside product surfaces.</p>
+          </div>
+          <div class="whiteboard">
+            <svg viewBox="0 0 450 488" role="img" aria-label="Small black operator feeding prompts into a product panel">
+              <rect x="52" y="82" width="160" height="244" rx="14" fill="none" stroke="#07090f" stroke-width="4"/>
+              <path d="M78 126 h84 M78 158 h102 M78 190 h66" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <rect x="260" y="86" width="124" height="236" rx="12" fill="none" stroke="#07090f" stroke-width="4"/>
+              <circle cx="304" cy="146" r="18" fill="none" stroke="#8b5cf6" stroke-width="5"/>
+              <rect x="286" y="194" width="52" height="42" rx="6" fill="none" stroke="#22d3ee" stroke-width="5"/>
+              <path d="M210 204 C236 190, 236 190, 260 204 M210 244 C236 258, 236 258, 260 244" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/>
+              <path d="M172 358 c-10 -42 13 -68 50 -67 c40 1 62 31 50 70 c-12 43 -88 40 -100 -3z" fill="#07090f"/>
+              <circle cx="210" cy="326" r="5" fill="#f8fafc"/>
+              <circle cx="236" cy="326" r="5" fill="#f8fafc"/>
+              <path d="M202 378 l-20 52 M240 378 l24 52" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <path d="M196 350 c-32 -24 -50 -50 -54 -86 M252 348 c34 -28 50 -56 50 -92" fill="none" stroke="#07090f" stroke-width="4" stroke-linecap="round"/>
+              <text x="70" y="366" fill="#2563eb" font-size="22" font-family="monospace">prompt in</text>
+              <text x="264" y="362" fill="#dc2626" font-size="22" font-family="monospace">feature out</text>
+            </svg>
+            <div class="board-label">AI enters the product</div>
+          </div>
+        </main>
+        <div class="footer">
+          <div>AI adoption curve</div>
+          <div class="question">Useful beats impressive.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="content">
+        <div class="topbar">
+          <div class="brand"><span class="mark">CTRL+SHIFT+AI</span><span>EP. 01</span></div>
+          <div class="page-num">05 / 07</div>
+        </div>
+        <main class="main">
+          <div>
+            <div class="stage-pill">STAGE 04</div>
+            <h2>Then AI became infrastructure.</h2>
+            <p class="body-copy">RAG systems, MCP, and dynamic UI moved the work from prompting a model to building systems around one.</p>
+          </div>
+          <div class="whiteboard">
+            <svg viewBox="0 0 450 488" role="img" aria-label="Small black operator routing RAG and MCP pipes into dynamic UI">
+              <rect x="54" y="80" width="104" height="78" rx="10" fill="none" stroke="#07090f" stroke-width="4"/>
+              <rect x="54" y="206" width="104" height="78" rx="10" fill="none" stroke="#07090f" stroke-width="4"/>
+              <rect x="292" y="106" width="104" height="156" rx="12" fill="none" stroke="#07090f" stroke-width="4"/>
+              <path d="M158 120 C214 120, 224 148, 292 148 M158 246 C216 246, 224 220, 292 220" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/>
+              <path d="M314 150 h56 M314 184 h42 M314 218 h64" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <path d="M190 316 c-12 -43 12 -70 52 -70 c42 0 66 30 54 74 c-13 45 -94 42 -106 -4z" fill="#07090f"/>
+              <circle cx="230" cy="282" r="5" fill="#f8fafc"/>
+              <circle cx="258" cy="282" r="5" fill="#f8fafc"/>
+              <path d="M220 338 l-26 58 M264 338 l28 58" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <path d="M218 306 l-60 -50 M270 306 l72 -70" stroke="#07090f" stroke-width="4" stroke-linecap="round"/>
+              <text x="76" y="130" fill="#2563eb" font-size="22" font-family="monospace">RAG</text>
+              <text x="76" y="258" fill="#2563eb" font-size="22" font-family="monospace">MCP</text>
+              <text x="290" y="302" fill="#dc2626" font-size="22" font-family="monospace">dynamic UI</text>
+            </svg>
+            <div class="board-label">from prompt to system</div>
+          </div>
+        </main>
+        <div class="footer">
+          <div>AI adoption curve</div>
+          <div class="question">The model is only one part.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="content">
+        <div class="topbar">
+          <div class="brand"><span class="mark">CTRL+SHIFT+AI</span><span>EP. 01</span></div>
+          <div class="page-num">06 / 07</div>
+        </div>
+        <main class="main">
+          <div>
+            <div class="stage-pill">STAGE 05</div>
+            <h2>Architecture first. Agents second.</h2>
+            <p class="body-copy">Use stronger models for system design, smaller models for implementation, and human judgment to decide what is actually right.</p>
+          </div>
+          <div class="whiteboard">
+            <svg viewBox="0 0 450 488" role="img" aria-label="Small black operator choosing architecture before agent code">
+              <rect x="64" y="76" width="322" height="100" rx="12" fill="none" stroke="#07090f" stroke-width="4"/>
+              <path d="M94 114 h98 M94 144 h152" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <path d="M90 248 h104 M258 248 h104" stroke="#07090f" stroke-width="6" stroke-linecap="round"/>
+              <path d="M194 248 c24 -52 40 -52 64 0" fill="none" stroke="#f97316" stroke-width="7" stroke-linecap="round"/>
+              <path d="M186 338 c-10 -42 12 -70 52 -70 c42 0 66 30 54 72 c-12 45 -96 43 -106 -2z" fill="#07090f"/>
+              <circle cx="226" cy="304" r="5" fill="#f8fafc"/>
+              <circle cx="254" cy="304" r="5" fill="#f8fafc"/>
+              <path d="M220 362 l-20 58 M262 362 l24 58" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <path d="M218 328 l-72 -70 M270 328 l72 -78" stroke="#07090f" stroke-width="4" stroke-linecap="round"/>
+              <text x="84" y="218" fill="#2563eb" font-size="22" font-family="monospace">design</text>
+              <text x="268" y="218" fill="#2563eb" font-size="22" font-family="monospace">code</text>
+              <text x="158" y="452" fill="#dc2626" font-size="22" font-family="monospace">judgment stays</text>
+            </svg>
+            <div class="board-label">agents need boundaries</div>
+          </div>
+        </main>
+        <div class="footer">
+          <div>AI adoption curve</div>
+          <div class="question">The reviewer is still the engineer.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="content">
+        <div class="topbar">
+          <div class="brand"><span class="mark">CTRL+SHIFT+AI</span><span>EP. 01</span></div>
+          <div class="page-num">07 / 07</div>
+        </div>
+        <main class="main">
+          <div>
+            <div class="stage-pill">WHERE THIS IS GOING</div>
+            <h2>The laptop may stop being the center of coding.</h2>
+            <p class="body-copy">Cloud repos, coding agents, and phone-based workflows are already changing the developer setup.</p>
+            <div class="path"><strong>Full episode</strong><span class="arrow">-&gt;</span><span>link in comments</span></div>
+          </div>
+          <div class="whiteboard">
+            <svg viewBox="0 0 450 488" role="img" aria-label="Small black operator pushing code from phone to cloud">
+              <rect x="74" y="124" width="92" height="178" rx="18" fill="none" stroke="#07090f" stroke-width="5"/>
+              <circle cx="120" cy="278" r="6" fill="#07090f"/>
+              <path d="M98 164 h46 M98 196 h34 M98 228 h54" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <path d="M270 144 c12 -38 78 -40 92 0 c40 2 52 66 8 82 h-114 c-48 -16 -30 -82 14 -82z" fill="none" stroke="#07090f" stroke-width="5"/>
+              <path d="M166 212 C222 190, 224 190, 270 190" fill="none" stroke="#f97316" stroke-width="7" stroke-linecap="round" stroke-dasharray="12 12"/>
+              <rect x="248" y="284" width="130" height="74" rx="9" fill="none" stroke="#07090f" stroke-width="4" opacity="0.34"/>
+              <path d="M272 320 h70" stroke="#07090f" stroke-width="5" stroke-linecap="round" opacity="0.34"/>
+              <path d="M178 366 c-12 -43 12 -70 52 -70 c42 0 66 30 54 74 c-13 45 -94 42 -106 -4z" fill="#07090f"/>
+              <circle cx="218" cy="332" r="5" fill="#f8fafc"/>
+              <circle cx="246" cy="332" r="5" fill="#f8fafc"/>
+              <path d="M208 388 l-20 54 M252 388 l24 54" stroke="#07090f" stroke-width="5" stroke-linecap="round"/>
+              <path d="M210 356 c-24 -30 -46 -62 -74 -92 M262 354 c34 -42 62 -82 82 -122" fill="none" stroke="#07090f" stroke-width="4" stroke-linecap="round"/>
+              <text x="76" y="342" fill="#2563eb" font-size="22" font-family="monospace">phone</text>
+              <text x="258" y="264" fill="#dc2626" font-size="22" font-family="monospace">cloud repo</text>
+            </svg>
+            <div class="board-label">the machine matters less</div>
+          </div>
+        </main>
+        <div class="footer">
+          <div>CTRL+SHIFT+AI</div>
+          <div class="question">What changed AI from tested to trusted?</div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

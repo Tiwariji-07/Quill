@@ -13,10 +13,10 @@ Not every day deserves a post. If the well is dry, say so and stop. Forcing post
 ### 1. State check (silent — gather, don't narrate yet)
 
 Read in parallel:
-- `linkedin/index.json`
-- `twitter/index.json`
-- `ideas/inbox.md`
+- `linkedin/index.json`, `twitter/index.json`, `medium/index.json` (local recency cache)
 - `voice.md`, `pillars.md`, `stack.md` (for context to evaluate ideas)
+
+Then pull open work from the **Notion Content Pipeline** (the control plane): `search` for recent items in status `Idea` / `Angle locked` / `Ready to review` and `fetch` the promising ones. Notion DB queries are Enterprise-gated, so use search + fetch, not a filtered query. The legacy `ideas/inbox.md` is an offline scratchpad only.
 
 Compute:
 - Days since last LinkedIn post
@@ -47,7 +47,7 @@ News check: <pending — running next>
 ### 3. Research (only if Vivek opts in)
 
 Ask via AskUserQuestion: *"Run news research today?"* with options:
-- **Yes, scan sources** — runs the `research-news.md` logic (WebFetch the weekly-tagged sources in `sources.md`, filter to Vivek's niche, last 7 days)
+- **Yes, scan sources** — runs the `research-news.md` logic (`fetch` the Notion Sources page, WebFetch its web sources, filter to Vivek's niche, last 7 days)
 - **Skip — I'll bring my own material** — go straight to step 4
 - **Skip entirely — just review state** — go to step 6 (no drafting today)
 
@@ -57,14 +57,14 @@ If "yes": fetch, filter, return a digest of max 5 items, each with a Vivek-angle
 
 Assemble a single ranked shortlist of 3–5 candidates, drawn from:
 - News digest (if step 3 ran)
-- Inbox items (`ideas/inbox.md`)
+- Open items from the Notion Content Pipeline (`Idea` / `Angle locked`)
 - Pillar-gap suggestions (what's underrepresented + what Vivek has in his stack worth talking about)
 
 For each candidate, show:
 ```
 [Pillar] [Platform suggestion] — <one-line angle>
   Why now: <gap | fresh news | inbox capture>
-  Source: <inbox | news digest | gap-fill>
+  Source: <pipeline | news digest | gap-fill>
 ```
 
 ### 5. Decision gate (this is where most days end)
@@ -78,7 +78,7 @@ Options:
 
 If **No**: write a one-line journal entry to `ideas/inbox.md` under a `## Daily notes` section noting the date and "no post today — <brief reason>." End the session.
 
-If **Capture only**: prompt for the inbox entry, append it, end.
+If **Capture only**: prompt for the idea and create it as an `Idea` row in the Notion Content Pipeline (the control plane), then end. Fall back to appending `ideas/inbox.md` only if Notion is unavailable.
 
 If **Yes**: continue.
 
@@ -93,7 +93,7 @@ Based on the chosen candidate's pillar:
 
 **Never skip the discuss/interview step.** For trends, going directly from a news headline to a draft produces shallow takes that read like a news recap. The `trend-discuss.md` step is what turns "I saw a news item" into "I have an opinion grounded in understanding."
 
-**Skill invocation is mandatory at draft time.** The drafting sub-commands invoke `linkedin-posts` (for LinkedIn) and `twitter-x-posts` (for X) via the Skill tool. If you find yourself drafting in this daily flow without invoking the matching skill, stop and invoke it — it enforces platform mechanics (char limits, hook rules, algorithm signals) that the voice files do not duplicate.
+**Skill invocation is mandatory at draft time.** Per the Skills matrix in `CLAUDE.md`: LinkedIn → `linkedin-posts` + `linkedin-post-formatter`; X → `twitter-x-posts`; Medium → `medium-posts`; and **`humanizer` on every draft as the final pass**. If you find yourself drafting in this daily flow without invoking the matching skills, stop and invoke them — they enforce platform mechanics (char limits, hook rules, algorithm signals) that the voice files do not duplicate.
 
 Platform: ask Vivek if both platforms make sense or just one. Default by pillar:
 - Architecture, Behind → LinkedIn primarily
@@ -125,6 +125,8 @@ or
 ```
 
 This is the running log that next day's `daily.md` reads to understand momentum.
+
+If a draft was produced, also reflect it in the **Notion Content Pipeline** (control plane): update the matching row's Status to `Drafting` or `Ready to review` and record the angle, or create a row if none existed.
 
 ---
 

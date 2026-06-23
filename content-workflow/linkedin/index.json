@@ -2,6 +2,42 @@
   "platform": "linkedin",
   "posts": [
     {
+      "date": "2026-06-04",
+      "heading": "DeepSWE shows Gemini Flash cost per completed task",
+      "pillar": "trend",
+      "topics": [
+        "deepswe",
+        "gemini-3-5-flash",
+        "gpt-5-5",
+        "agentic-coding",
+        "benchmark"
+      ],
+      "file": "published/2026-06-04-deepswe-gemini-flash-gpt55-medium.md",
+      "engagement": {
+        "likes": null,
+        "comments": null,
+        "reach": null
+      }
+    },
+    {
+      "date": "2026-05-23",
+      "heading": "AI UI Arena model comparison",
+      "pillar": "behind-the-build",
+      "topics": [
+        "ai-ui-arena",
+        "ui-generation",
+        "model-comparison",
+        "frontend-design-skills",
+        "react"
+      ],
+      "file": "published/2026-05-23-ai-ui-arena-model-comparison.md",
+      "engagement": {
+        "likes": null,
+        "comments": null,
+        "reach": null
+      }
+    },
+    {
       "date": "2026-05-20",
       "heading": "Gemini Flash and cost per completed task",
       "pillar": "trend",
